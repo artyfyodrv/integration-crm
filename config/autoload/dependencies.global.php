@@ -21,8 +21,6 @@ return [
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories' => [
             // Fully\Qualified\ClassName::class => Fully\Qualified\FactoryName::class,
-            \Psr\Log\LoggerInterface::class => \Sync\Factories\LoggerHandlerFactory::class,
-
         ],
     ],
 ];

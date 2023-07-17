@@ -15,13 +15,10 @@ class SumHandlerFactory
     /**
      * @param ContainerInterface $container контейнер зависимостей
      * @return RequestHandlerInterface возвращает экземпляр класса SumHandler
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container): RequestHandlerInterface
     {
-        $logger = $container->get(LoggerInterface::class);
 
-        return new SumHandler($logger);
+        return new SumHandler();
     }
 }
