@@ -4,7 +4,6 @@ namespace Sync\Factories;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Log\LoggerInterface;
 use Sync\Handlers\SumHandler;
 
 /**
