@@ -17,7 +17,6 @@ class SumHandlerFactory
      */
     public function __invoke(ContainerInterface $container): RequestHandlerInterface
     {
-
         return new SumHandler();
     }
 }
