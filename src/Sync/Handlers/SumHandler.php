@@ -23,24 +23,16 @@ class SumHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $date = date('Y-m-d');
-        $log = new Logger('name');
+        $log = new Logger('LOGGER');
         $log->pushHandler(new StreamHandler("logs/$date/requests.log",));
 
         $queryParams = $request->getQueryParams();
-        $count = count($queryParams);
-        if ($count < 2) {
-            $log->error("(Expected minimum 2 param, got: $count )" . " got param: " . implode('+', $queryParams));
-            return new JsonResponse([
-                'status' => 'error',
-                'info' => "Not enough parameters passed in the request. Expected min 2, but called ($count)"
-            ], 400);
-        }
-        $sum = array_sum($queryParams);
 
-        $log->info("Received params: " . implode(',', $queryParams) . " result: $sum");
+        $sum = array_sum($queryParams);
+        $log->info(implode(',', $queryParams) . " result: $sum");
+
         return new JsonResponse([
-            'status' => 'successful',
-            'result' => $sum,
+            'result' => $sum
         ]);
     }
 }
