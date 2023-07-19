@@ -29,9 +29,9 @@ class ApiService
     public function __construct()
     {
         $this->apiClient = new AmoCRMApiClient(
-            '1f0f347a-49b9-4171-bbd6-eea479aab649',
-            'rUZ4nnMQ8NlYEBUeM86nQgPIJg3cwrK2pEs7APTZhxMhitf9z3Ynyee052jgsJfS',
-            'https://webhook.site/c13794b5-c862-4ac6-bb62-38b19e37a717'
+            getenv('CLIENT_ID'),
+            getenv('CLIENT_SECRET'),
+            getenv('REDIRECT_URL')
         );
     }
 

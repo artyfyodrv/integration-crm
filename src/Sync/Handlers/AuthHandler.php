@@ -10,6 +10,10 @@ use Sync\Api\ApiService;
 
 class AuthHandler implements RequestHandlerInterface
 {
+    /**
+     * @param ServerRequestInterface $request получает HTTP запрос
+     * @return ResponseInterface возвращает ответ
+     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $queryParams = $request->getQueryParams();
