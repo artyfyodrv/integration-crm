@@ -43,6 +43,7 @@
     },
     "require": {
         "php": "^7.4 || ~8.0.0 || ~8.1.0",
+        "amocrm/amocrm-api-library": "^1.0",
         "composer/package-versions-deprecated": "^1.10.99",
         "laminas/laminas-component-installer": "^2.6",
         "laminas/laminas-config-aggregator": "^1.6",
@@ -52,7 +53,8 @@
         "mezzio/mezzio": "^3.7",
         "mezzio/mezzio-fastroute": "^3.0.3",
         "mezzio/mezzio-helpers": "^5.7",
-        "monolog/monolog": "^2.9"
+        "monolog/monolog": "^2.9",
+        "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {
         "laminas/laminas-development-mode": "^3.3.0",
@@ -63,7 +65,6 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/App/",
             "Sync\\": "src/Sync"
         }
     },

@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Dotenv\Dotenv;
+
+session_start();
+
 // Delegate static file requests back to the PHP built-in webserver
 if (PHP_SAPI === 'cli-server' && $_SERVER['SCRIPT_FILENAME'] !== __FILE__) {
     return false;
@@ -9,6 +13,9 @@ if (PHP_SAPI === 'cli-server' && $_SERVER['SCRIPT_FILENAME'] !== __FILE__) {
 
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
+
+$dotenv = Dotenv::createUnsafeImmutable('./');
+$dotenv->load();
 
 /**
  * Self-called anonymous function that creates its own scope and keeps the global namespace clean.
