@@ -18,19 +18,20 @@ class AuthHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $queryParams = $request->getQueryParams();
-        $getTokenJson = json_decode(file_get_contents('tokens.json'), true);
+        $tokenFromFile = json_decode(file_get_contents('tokens.json'), true);
 
         $apiClient = new ApiService();
-        $readToken = $apiClient->readToken($queryParams['id']);
+        $token = $apiClient->readToken($queryParams['id']);
 
-        if (!$readToken) {
+        if (!$token) {
             $apiClient->auth($queryParams);
         }
 
-        $accessToken = new AccessToken($getTokenJson[$queryParams["id"]]);
+        $accessToken = new AccessToken($tokenFromFile[$queryParams["id"]]);
 
         return new JsonResponse([
-            "name" => $apiClient->getAccount($accessToken)['name']
-        ]);
+                "name" => $apiClient->getAccount($accessToken)['name']
+            ]
+        );
     }
 }
