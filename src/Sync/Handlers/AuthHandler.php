@@ -3,6 +3,7 @@
 namespace Sync\Handlers;
 
 use Laminas\Diactoros\Response\JsonResponse;
+use League\OAuth2\Client\Token\AccessToken;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -17,11 +18,19 @@ class AuthHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $queryParams = $request->getQueryParams();
+        $getTokenJson = json_decode(file_get_contents('tokens.json'), true);
+
         $apiClient = new ApiService();
-        $auth = $apiClient->auth($queryParams);
+        $readToken = $apiClient->readToken($queryParams['id']);
+
+        if (!$readToken) {
+            $apiClient->auth($queryParams);
+        }
+
+        $accessToken = new AccessToken($getTokenJson[$queryParams["id"]]);
 
         return new JsonResponse([
-            "result" => 'ok'
+            "name" => $apiClient->getAccount($accessToken)['name']
         ]);
     }
 }
