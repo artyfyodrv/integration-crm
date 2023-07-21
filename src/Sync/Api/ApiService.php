@@ -114,7 +114,7 @@ class ApiService
                 ]);
             }
         } catch (Throwable $e) {
-            die($e->getMessage());
+            throw new Exception('Error auth');
         }
 
         session_abort();
@@ -161,9 +161,10 @@ class ApiService
 
             return new AccessToken($accesses[$serviceId]);
         } catch (Throwable $e) {
-            exit($e->getMessage());
+            throw new Exception('Token error');
         }
     }
+
     /**
      * Получение данных аккаунта
      *
@@ -180,7 +181,7 @@ class ApiService
                 ->getCurrent()
                 ->toArray();
         } catch (AmoCRMApiException $e) {
-            exit($e->getMessage());
+            return ["message" => "$e"];
         }
 
         return $account;

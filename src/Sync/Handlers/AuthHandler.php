@@ -8,6 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sync\Api\ApiService;
+use Throwable;
 
 class AuthHandler implements RequestHandlerInterface
 {
@@ -17,21 +18,24 @@ class AuthHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $queryParams = $request->getQueryParams();
-        $tokenFromFile = json_decode(file_get_contents('tokens.json'), true);
+        try {
+            $queryParams = $request->getQueryParams();
+            $tokenFromFile = json_decode(file_get_contents('tokens.json'), true);
 
-        $apiClient = new ApiService();
-        $token = $apiClient->readToken($queryParams['id']);
+            $apiClient = new ApiService();
+            $token = $apiClient->readToken($queryParams['id']);
 
-        if (!$token) {
-            $apiClient->auth($queryParams);
+            if (!$token) {
+                $apiClient->auth($queryParams);
+            }
+
+            $accessToken = new AccessToken($tokenFromFile[$queryParams["id"]]);
+
+            return new JsonResponse([
+                "name" => $apiClient->getAccount($accessToken)['name'],
+            ]);
+        } catch (Throwable $e) {
+            return new JsonResponse(["message" => $e->getMessage()]);
         }
-
-        $accessToken = new AccessToken($tokenFromFile[$queryParams["id"]]);
-
-        return new JsonResponse([
-                "name" => $apiClient->getAccount($accessToken)['name']
-            ]
-        );
     }
 }
