@@ -180,7 +180,7 @@ class ApiService
                 ->getCurrent()
                 ->toArray();
         } catch (AmoCRMApiException $e) {
-            return ["message" => "$e"];
+            exit($e->getMessage());
         }
 
         return $account;
