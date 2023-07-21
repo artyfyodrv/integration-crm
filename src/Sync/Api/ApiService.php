@@ -3,6 +3,7 @@
 namespace Sync\Api;
 
 use AmoCRM\Client\AmoCRMApiClient;
+use AmoCRM\Exceptions\AmoCRMApiException;
 use Exception;
 use League\OAuth2\Client\Token\AccessToken;
 use Throwable;
@@ -94,7 +95,7 @@ class ApiService
                 exit('Invalid state');
             }
         } catch (Throwable $e) {
-            die($e->getMessage());
+            throw new Exception('Error auth');
         }
 
         try {
@@ -113,7 +114,7 @@ class ApiService
                 ]);
             }
         } catch (Throwable $e) {
-            die($e->getMessage());
+            throw new Exception('Error auth');
         }
 
         session_abort();
@@ -146,7 +147,7 @@ class ApiService
      * @param int $serviceId Системный идентификатор аккаунта.
      * @return AccessToken
      */
-    public function readToken(int $serviceId): AccessToken
+    public function readToken(int $serviceId): ?AccessToken
     {
         try {
             if (!file_exists(self::TOKENS_FILE)) {
@@ -155,12 +156,34 @@ class ApiService
 
             $accesses = json_decode(file_get_contents(self::TOKENS_FILE), true);
             if (empty($accesses[$serviceId])) {
-                throw new Exception("Unknown account name \"$serviceId\".");
+                return null;
             }
 
             return new AccessToken($accesses[$serviceId]);
         } catch (Throwable $e) {
-            exit($e->getMessage());
+            throw new Exception('Token error');
         }
+    }
+
+    /**
+     * Получение данных аккаунта
+     *
+     * @param AccessToken $accessToken - получение токена авторизации
+     * @return string[] - возвращаем массив с ошибкой или данными аккаунта
+     */
+    public function getAccount(AccessToken $accessToken): array
+    {
+        try {
+            $account = $this->apiClient
+                ->setAccountBaseDomain($accessToken->getValues()['base_domain'])
+                ->setAccessToken($accessToken)
+                ->account()
+                ->getCurrent()
+                ->toArray();
+        } catch (AmoCRMApiException $e) {
+            return ["message" => "$e"];
+        }
+
+        return $account;
     }
 }
