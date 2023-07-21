@@ -95,7 +95,7 @@ class ApiService
                 exit('Invalid state');
             }
         } catch (Throwable $e) {
-            die($e->getMessage());
+            throw new Exception('Error auth');
         }
 
         try {
