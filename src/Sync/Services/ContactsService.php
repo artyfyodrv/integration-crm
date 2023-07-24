@@ -11,6 +11,7 @@ use Throwable;
 class ContactsService
 {
     private ApiService $apiService;
+    public LoggerService $loggerService;
 
 
     /**
@@ -19,6 +20,7 @@ class ContactsService
     public function __construct(ApiService $apiService)
     {
         $this->apiService = $apiService;
+        $this->loggerService = new LoggerService();
     }
 
     /**
@@ -29,9 +31,6 @@ class ContactsService
      */
     public function getContacts(AccessToken $accessToken): ?array
     {
-        $container = require 'config/container.php';
-        $logger = $container->get('logger');
-
         $tokenData = $accessToken->getValues();
 
         if (empty($tokenData['base_domain'])) {
@@ -46,8 +45,9 @@ class ContactsService
                 ->contacts()
                 ->get()->toArray();
         } catch (AmoCRMApiException $e) {
-            $logger->logger->info('Error get contacts for file ' . __FILE__ . ', line ' . __LINE__);
-
+            $this->loggerService->logError(
+                'Error get contacts for file ' . __FILE__ . ', line ' . __LINE__
+            );
             throw new Exception('Error get contacts');
         }
 
@@ -62,9 +62,6 @@ class ContactsService
      */
     public function getNameAndEmail($accountId): ?array
     {
-        $container = require 'config/container.php';
-        $logger = $container->get('logger');
-
         try {
             $token = $this->apiService->readToken($accountId);
             $data = $this->getContacts($token);
@@ -94,7 +91,9 @@ class ContactsService
                 );
             }
         } catch (AmoCRMApiException $e) {
-            $logger->logger->info('Error get contacts for file ' . __FILE__ . ', line ' . __LINE__);
+            $this->loggerService->logError(
+                'Error get contacts [name,email] for file ' . __FILE__ . ', line ' . __LINE__
+            );
             throw new Exception('Error get [name,email] contacts');
         }
 
