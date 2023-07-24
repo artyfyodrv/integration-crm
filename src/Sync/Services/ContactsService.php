@@ -57,8 +57,8 @@ class ContactsService
     /**
      * Получаем имя и эмейл контактов
      *
-     * @throws Exception
      * @return array возвращаем массив с именами и эмейлами контактов
+     * @throws Exception
      */
     public function getNameAndEmail($accountId): ?array
     {
