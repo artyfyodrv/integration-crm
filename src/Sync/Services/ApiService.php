@@ -1,9 +1,8 @@
 <?php
 
-namespace Sync\Api;
+namespace Sync\Services;
 
 use AmoCRM\Client\AmoCRMApiClient;
-use AmoCRM\Exceptions\AmoCRMApiException;
 use Exception;
 use League\OAuth2\Client\Token\AccessToken;
 use Throwable;
@@ -23,6 +22,14 @@ class ApiService
 
     /** @var AmoCRMApiClient AmoCRM клиент. */
     private AmoCRMApiClient $apiClient;
+
+    /**
+     * @return AmoCRMApiClient
+     */
+    public function getApiClient(): AmoCRMApiClient
+    {
+        return $this->apiClient;
+    }
 
     /**
      * ApiService constructor.
@@ -95,7 +102,7 @@ class ApiService
                 exit('Invalid state');
             }
         } catch (Throwable $e) {
-            throw new Exception('Error auth');
+            throw new Exception('Error auth 1');
         }
 
         try {
@@ -114,15 +121,13 @@ class ApiService
                 ]);
             }
         } catch (Throwable $e) {
-            throw new Exception('Error auth');
+            throw new Exception($e->getMessage());
         }
 
+        $accountId = $_SESSION['service_id'];
         session_abort();
-        return $this
-            ->apiClient
-            ->getOAuthClient()
-            ->getResourceOwner($accessToken)
-            ->getName();
+
+        return $accountId;
     }
 
     /**
@@ -151,10 +156,11 @@ class ApiService
     {
         try {
             if (!file_exists(self::TOKENS_FILE)) {
-                throw new Exception('Tokens file not found.');
+                file_put_contents(self::TOKENS_FILE, json_encode([], JSON_PRETTY_PRINT));
             }
 
             $accesses = json_decode(file_get_contents(self::TOKENS_FILE), true);
+
             if (empty($accesses[$serviceId])) {
                 return null;
             }
@@ -165,25 +171,4 @@ class ApiService
         }
     }
 
-    /**
-     * Получение данных аккаунта
-     *
-     * @param AccessToken $accessToken - получение токена авторизации
-     * @return string[] - возвращаем массив с ошибкой или данными аккаунта
-     */
-    public function getAccount(AccessToken $accessToken): array
-    {
-        try {
-            $account = $this->apiClient
-                ->setAccountBaseDomain($accessToken->getValues()['base_domain'])
-                ->setAccessToken($accessToken)
-                ->account()
-                ->getCurrent()
-                ->toArray();
-        } catch (AmoCRMApiException $e) {
-            return ["message" => "$e"];
-        }
-
-        return $account;
-    }
 }

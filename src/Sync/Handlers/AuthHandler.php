@@ -3,11 +3,11 @@
 namespace Sync\Handlers;
 
 use Laminas\Diactoros\Response\JsonResponse;
-use League\OAuth2\Client\Token\AccessToken;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sync\Api\ApiService;
+use Sync\Services\AccountsService;
+use Sync\Services\ApiService;
 use Throwable;
 
 class AuthHandler implements RequestHandlerInterface
@@ -20,19 +20,24 @@ class AuthHandler implements RequestHandlerInterface
     {
         try {
             $queryParams = $request->getQueryParams();
-            $tokenFromFile = json_decode(file_get_contents('tokens.json'), true);
 
             $apiClient = new ApiService();
-            $token = $apiClient->readToken($queryParams['id']);
+            $accountId = $queryParams["id"] ?? $_SESSION['service_id'];
+            $token = $apiClient->readToken($accountId);
 
             if (!$token) {
-                $apiClient->auth($queryParams);
+                $accountId = $apiClient->auth($queryParams);
+                $token = $apiClient->readToken($accountId);
             }
 
-            $accessToken = new AccessToken($tokenFromFile[$queryParams["id"]]);
+            if (!$token) {
+                throw new \Exception('Ошибка чтения токена');
+            }
+
+            $accounts = new AccountsService($apiClient);
 
             return new JsonResponse([
-                "name" => $apiClient->getAccount($accessToken)['name'],
+                "name" => $accounts->getAccount($token)['name'],
             ]);
         } catch (Throwable $e) {
             return new JsonResponse(["message" => $e->getMessage()]);
