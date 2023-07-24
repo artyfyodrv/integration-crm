@@ -47,7 +47,7 @@ class ApiService
      * Получение токена досутпа для аккаунта.
      *
      * @param array $queryParams Входные GET параметры.
-     * @return string Имя авторизованногоF аккаунта.
+     * @return string Имя авторизованного аккаунта.
      */
     public function auth(array $queryParams): string
     {

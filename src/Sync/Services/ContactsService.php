@@ -5,14 +5,17 @@ namespace Sync\Services;
 use AmoCRM\Exceptions\AmoCRMApiException;
 use Exception;
 use League\OAuth2\Client\Token\AccessToken;
-use Throwable;
-
 
 class ContactsService
 {
+    /**
+     * @var ApiService - Api клиент
+     */
     private ApiService $apiService;
+    /**
+     * @var LoggerService - Логгер
+     */
     public LoggerService $loggerService;
-
 
     /**
      * @param ApiService $apiService
@@ -34,6 +37,9 @@ class ContactsService
         $tokenData = $accessToken->getValues();
 
         if (empty($tokenData['base_domain'])) {
+            $this->loggerService->logError(
+                'BASE_DOMAIN not found ' . __FILE__ . ', line ' . __LINE__
+            );
             throw new Exception("error base_domain not found");
         }
 

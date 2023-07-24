@@ -26,7 +26,6 @@ class ConfigProvider
     {
         return [
             'invokables' => [
-                'logger' => Logger::class
             ],
             'factories' => [
                 SumHandler::class => SumHandlerFactory::class,

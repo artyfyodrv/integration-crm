@@ -7,6 +7,9 @@ use League\OAuth2\Client\Token\AccessToken;
 
 class AccountsService
 {
+    /**
+     * @var ApiService
+     */
     private ApiService $apiService;
 
     /**
@@ -16,7 +19,6 @@ class AccountsService
     {
         $this->apiService = $apiService;
     }
-
 
     /**
      * Получение данных аккаунта

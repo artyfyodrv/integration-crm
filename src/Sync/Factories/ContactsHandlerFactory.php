@@ -6,7 +6,9 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sync\Handlers\ContactsHandler;
 
-
+/**
+ * Фабрика для создания экземпляра ContactsHandler
+ */
 class ContactsHandlerFactory
 {
     /**
