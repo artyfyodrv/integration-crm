@@ -4,19 +4,20 @@ namespace Sync\Factories;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sync\Handlers\AuthHandler;
+use Sync\Handlers\ContactsHandler;
 
 /**
- * Фабрика для создания экземпляра AuthHandler
+ * Фабрика для создания экземпляра ContactsHandler
  */
-class AuthHandlerFactory
+class ContactsHandlerFactory
 {
     /**
      * @param ContainerInterface $container контейнер зависимостей
-     * @return RequestHandlerInterface возвращает экземпляр AuthHandler
+     * @return RequestHandlerInterface возвращает экземпляр класса SumHandler
      */
     public function __invoke(ContainerInterface $container): RequestHandlerInterface
     {
-        return new AuthHandler();
+        return new ContactsHandler();
     }
+
 }

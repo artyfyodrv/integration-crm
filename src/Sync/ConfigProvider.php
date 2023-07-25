@@ -3,8 +3,10 @@
 namespace Sync;
 
 use Sync\Factories\AuthHandlerFactory;
+use Sync\Factories\ContactsHandlerFactory;
 use Sync\Factories\SumHandlerFactory;
 use Sync\Handlers\AuthHandler;
+use Sync\Handlers\ContactsHandler;
 use Sync\Handlers\SumHandler;
 
 class ConfigProvider
@@ -24,11 +26,11 @@ class ConfigProvider
     {
         return [
             'invokables' => [
-
             ],
             'factories' => [
                 SumHandler::class => SumHandlerFactory::class,
                 AuthHandler::class => AuthHandlerFactory::class,
+                ContactsHandler::class => ContactsHandlerFactory::class,
             ],
         ];
     }

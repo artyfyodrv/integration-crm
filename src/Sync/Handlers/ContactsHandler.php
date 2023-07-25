@@ -6,38 +6,27 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sync\Services\AccountsService;
 use Sync\Services\ApiService;
+use Sync\Services\ContactsService;
 use Throwable;
 
-class AuthHandler implements RequestHandlerInterface
+class ContactsHandler implements RequestHandlerInterface
 {
     /**
-     * @param ServerRequestInterface $request получает HTTP запрос
-     * @return ResponseInterface возвращает ответ
+     * @param ServerRequestInterface $request - получает HTTP запрос
+     * @return ResponseInterface - возвращает экземпляр класса JsonResponse c ответом
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         try {
             $queryParams = $request->getQueryParams();
-
             $apiClient = new ApiService();
+            $contactsService = new ContactsService($apiClient);
             $accountId = $queryParams["id"] ?? $_SESSION['service_id'];
-            $token = $apiClient->readToken($accountId);
-
-            if (!$token) {
-                $accountId = $apiClient->auth($queryParams);
-                $token = $apiClient->readToken($accountId);
-            }
-
-            if (!$token) {
-                throw new \Exception('Ошибка чтения токена');
-            }
-
-            $accounts = new AccountsService($apiClient);
+            $data = $contactsService->getNameAndEmail($accountId);
 
             return new JsonResponse([
-                "name" => $accounts->getAccount($token)['name'],
+                'result' => $data
             ]);
         } catch (Throwable $e) {
             return new JsonResponse(["message" => $e->getMessage()]);
