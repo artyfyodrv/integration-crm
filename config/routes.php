@@ -39,6 +39,7 @@ use Psr\Container\ContainerInterface;
 
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
     $app->get('/api/sum', \Sync\Handlers\SumHandler::class, 'api.sum');
-    $app->get('/api/auth', \Sync\Handlers\AuthHandler::class, 'api.auth');
-    $app->get('/api/contacts', \Sync\Handlers\ContactsHandler::class, 'api.contacts');
+    $app->get('/api/auth', \Sync\Handlers\Kommo\AuthHandler::class, 'api.auth');
+    $app->get('/api/contacts', \Sync\Handlers\Kommo\ContactsHandler::class, 'api.contacts');
+    $app->get('/api/contact', \Sync\Handlers\Unisender\ContactHandler::class, 'api_contact');
 };

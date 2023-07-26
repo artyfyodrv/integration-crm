@@ -1,13 +1,13 @@
 <?php
 
-namespace Sync\Handlers;
+namespace Sync\Handlers\Kommo;
 
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sync\Services\AccountsService;
-use Sync\Services\ApiService;
+use Sync\Services\Kommo\AccountsService;
+use Sync\Services\Kommo\ApiService;
 use Throwable;
 
 class AuthHandler implements RequestHandlerInterface
@@ -37,10 +37,14 @@ class AuthHandler implements RequestHandlerInterface
             $accounts = new AccountsService($apiClient);
 
             return new JsonResponse([
+                "status" => "success",
                 "name" => $accounts->getAccount($token)['name'],
             ]);
         } catch (Throwable $e) {
-            return new JsonResponse(["message" => $e->getMessage()]);
+            return new JsonResponse([
+                'status' => 'failed',
+                'result' => $e->getMessage()
+            ], 400);
         }
     }
 }

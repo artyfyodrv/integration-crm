@@ -1,15 +1,15 @@
 <?php
 
-namespace Sync\Factories;
+namespace Sync\Factories\Unisender;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sync\Handlers\ContactsHandler;
+use Sync\Handlers\Unisender\ContactHandler;
 
 /**
- * Фабрика для создания экземпляра ContactsHandler
+ * Фабрика для создания экземпляра ContactHandler
  */
-class ContactsHandlerFactory
+class ContactHandlerFactory
 {
     /**
      * @param ContainerInterface $container контейнер зависимостей
@@ -17,7 +17,7 @@ class ContactsHandlerFactory
      */
     public function __invoke(ContainerInterface $container): RequestHandlerInterface
     {
-        return new ContactsHandler();
+        return new ContactHandler();
     }
 
 }

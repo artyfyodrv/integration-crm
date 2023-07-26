@@ -2,12 +2,15 @@
 
 namespace Sync;
 
-use Sync\Factories\AuthHandlerFactory;
-use Sync\Factories\ContactsHandlerFactory;
+use Sync\Factories\Kommo\AuthHandlerFactory;
+use Sync\Factories\Kommo\ContactsHandlerFactory;
 use Sync\Factories\SumHandlerFactory;
-use Sync\Handlers\AuthHandler;
-use Sync\Handlers\ContactsHandler;
+use Sync\Factories\Unisender\ContactHandlerFactory;
+use Sync\Handlers\Kommo\AuthHandler;
+use Sync\Handlers\Kommo\ContactsHandler;
 use Sync\Handlers\SumHandler;
+use Sync\Handlers\Unisender\ContactHandler;
+
 
 class ConfigProvider
 {
@@ -31,6 +34,7 @@ class ConfigProvider
                 SumHandler::class => SumHandlerFactory::class,
                 AuthHandler::class => AuthHandlerFactory::class,
                 ContactsHandler::class => ContactsHandlerFactory::class,
+                ContactHandler::class => ContactHandlerFactory::class
             ],
         ];
     }

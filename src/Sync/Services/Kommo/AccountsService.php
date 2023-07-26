@@ -1,6 +1,6 @@
 <?php
 
-namespace Sync\Services;
+namespace Sync\Services\Kommo;
 
 use AmoCRM\Exceptions\AmoCRMApiException;
 use League\OAuth2\Client\Token\AccessToken;

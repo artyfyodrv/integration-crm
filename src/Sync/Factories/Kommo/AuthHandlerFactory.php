@@ -1,10 +1,10 @@
 <?php
 
-namespace Sync\Factories;
+namespace Sync\Factories\Kommo;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Sync\Handlers\AuthHandler;
+use Sync\Handlers\Kommo\AuthHandler;
 
 /**
  * Фабрика для создания экземпляра AuthHandler
