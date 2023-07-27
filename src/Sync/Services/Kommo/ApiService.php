@@ -54,8 +54,6 @@ class ApiService
         /** Занесение системного идентификатора в сессию для реализации OAuth2.0. */
         if (!empty($queryParams['id'])) {
             $_SESSION['service_id'] = $queryParams['id'];
-        } else {
-            throw new Exception('Error request, not found parameters ID');
         }
 
         if (isset($queryParams['referer'])) {
