@@ -41,5 +41,6 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     $app->get('/api/sum', \Sync\Handlers\SumHandler::class, 'api.sum');
     $app->get('/api/auth', \Sync\Handlers\Kommo\AuthHandler::class, 'api.auth');
     $app->get('/api/contacts', \Sync\Handlers\Kommo\ContactsHandler::class, 'api.contacts');
-    $app->get('/api/contact', \Sync\Handlers\Unisender\ContactHandler::class, 'api_contact');
+    $app->get('/api/contact', \Sync\Handlers\Unisender\ContactHandler::class, 'api.contact');
+    $app->post('/api/send', \Sync\Handlers\Kommo\SendHandler::class, 'api.send');
 };
