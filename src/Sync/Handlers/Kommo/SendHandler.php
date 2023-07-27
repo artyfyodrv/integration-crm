@@ -33,7 +33,7 @@ class SendHandler implements RequestHandlerInterface
             return new JsonResponse([
                 "status" => "failed",
                 "message" => $send['error'],
-            ]);
+            ], 400);
         }
 
         return new JsonResponse([
