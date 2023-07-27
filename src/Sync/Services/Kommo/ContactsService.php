@@ -1,11 +1,15 @@
 <?php
 
-namespace Sync\Services;
+namespace Sync\Services\Kommo;
 
 use AmoCRM\Exceptions\AmoCRMApiException;
 use Exception;
 use League\OAuth2\Client\Token\AccessToken;
+use Sync\Services\LoggerService;
 
+/**
+ * ContactsService class контакты Kommo
+ */
 class ContactsService
 {
     /**
