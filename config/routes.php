@@ -43,4 +43,5 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     $app->get('/api/contacts', \Sync\Handlers\Kommo\ContactsHandler::class, 'api.contacts');
     $app->get('/api/contact', \Sync\Handlers\Unisender\ContactHandler::class, 'api.contact');
     $app->post('/api/send', \Sync\Handlers\Kommo\SendHandler::class, 'api.send');
+    $app->post('/api/addIntegration', \Sync\Handlers\Kommo\AddIntegrationHandler::class, 'api.addIntegration');
 };

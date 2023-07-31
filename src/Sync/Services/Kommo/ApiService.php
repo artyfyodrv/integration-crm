@@ -4,7 +4,10 @@ namespace Sync\Services\Kommo;
 
 use AmoCRM\Client\AmoCRMApiClient;
 use Exception;
+use Sync\Database;
 use League\OAuth2\Client\Token\AccessToken;
+use Sync\Models\Access;
+use Sync\Models\Account;
 use Throwable;
 
 /**
@@ -14,6 +17,7 @@ use Throwable;
  */
 class ApiService
 {
+
     /** @var string Базовый домен авторизации. */
     private const TARGET_DOMAIN = 'kommo.com';
 
@@ -139,11 +143,21 @@ class ApiService
      */
     private function saveToken(int $serviceId, array $token): void
     {
-        $tokens = file_exists(self::TOKENS_FILE)
-            ? json_decode(file_get_contents(self::TOKENS_FILE), true)
-            : [];
-        $tokens[$serviceId] = $token;
-        file_put_contents(self::TOKENS_FILE, json_encode($tokens, JSON_PRETTY_PRINT));
+        new Database();
+        Account::on()
+            ->updateOrCreate([
+                'id' => $serviceId,
+            ]);
+
+        Access::on()
+            ->updateOrCreate([
+                'account_id' => $serviceId,
+                'base_domain' => $token['base_domain'],
+                'access_token' => $token['access_token'],
+                'refresh_token' => $token['refresh_token'],
+                'expires' => $token['expires'],
+            ]);
+
     }
 
     /**
@@ -151,21 +165,19 @@ class ApiService
      *
      * @param int $serviceId Системный идентификатор аккаунта.
      * @return AccessToken
+     * @throws Exception
      */
-    public function readToken(int $serviceId): ?AccessToken
+    public function readToken(int $serviceId)
     {
         try {
-            if (!file_exists(self::TOKENS_FILE)) {
-                file_put_contents(self::TOKENS_FILE, json_encode([], JSON_PRETTY_PRINT));
-            }
+            new Database();
+            $token = Access::on()->where('account_id', '=', $serviceId)->get()->toArray();
 
-            $accesses = json_decode(file_get_contents(self::TOKENS_FILE), true);
-
-            if (empty($accesses[$serviceId])) {
+            if (empty($token)) {
                 return null;
             }
 
-            return new AccessToken($accesses[$serviceId]);
+            return new AccessToken($token[0]);
         } catch (Throwable $e) {
             throw new Exception('Token error');
         }

@@ -5,6 +5,8 @@ namespace Sync\Services\Kommo;
 use AmoCRM\Exceptions\AmoCRMApiException;
 use Exception;
 use League\OAuth2\Client\Token\AccessToken;
+use Sync\Database;
+use Sync\Models\Account;
 use Sync\Services\LoggerService;
 
 /**
@@ -38,6 +40,7 @@ class ContactsService
      */
     public function getContacts(AccessToken $accessToken): ?array
     {
+        new Database();
         $tokenData = $accessToken->getValues();
 
         if (empty($tokenData['base_domain'])) {
@@ -54,6 +57,7 @@ class ContactsService
                 ->setAccessToken($accessToken)
                 ->contacts()
                 ->get()->toArray();
+
         } catch (AmoCRMApiException $e) {
             $this->loggerService->logError(
                 'Error get contacts for file ' . __FILE__ . ', line ' . __LINE__

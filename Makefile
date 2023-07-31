@@ -4,6 +4,10 @@ IMAGE := application-backend
 serve:
 	composer run --timeout=0 serve
 
+# запускаем localtunnel
+start:
+	lt --port 80 --subdomain artyom --print-requests --allow-invalid-cert
+
 # подтягивает команды composer, сбор образа docker, и контейнеры
 up: install build
 	docker-compose up -d
@@ -19,4 +23,5 @@ install:
 build:
 	docker build -t $(IMAGE) .
 
-
+migrate:
+	docker run jjnwjiwebnf19fv bash php ./vendor/phpmig
