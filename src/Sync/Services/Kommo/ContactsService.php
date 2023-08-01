@@ -7,6 +7,7 @@ use Exception;
 use League\OAuth2\Client\Token\AccessToken;
 use Sync\Database;
 use Sync\Models\Account;
+use Sync\Models\Contact;
 use Sync\Services\LoggerService;
 
 /**
@@ -57,7 +58,6 @@ class ContactsService
                 ->setAccessToken($accessToken)
                 ->contacts()
                 ->get()->toArray();
-
         } catch (AmoCRMApiException $e) {
             $this->loggerService->logError(
                 'Error get contacts for file ' . __FILE__ . ', line ' . __LINE__
@@ -104,6 +104,28 @@ class ContactsService
                     'email' => $email,
                 );
             }
+
+            /**
+             * TODO: Придумать другой способ реализации, оптимизация так себе =\
+             */
+            $account = Account::find($accountId);
+            foreach ($result as $contactData) {
+                if (empty($contactData['email'])) {
+                    Contact::updateOrCreate([
+                        'name' => $contactData['name'],
+                        'email' => null,
+                        'account_id' => $account->id,
+                    ]);
+                }
+                foreach ($contactData['email'] as $emails) {
+                    Contact::updateOrCreate([
+                        'name' => $contactData['name'],
+                        'email' => $emails,
+                        'account_id' => $account->id,
+                    ]);
+                }
+            }
+
         } catch (AmoCRMApiException $e) {
             $this->loggerService->logError(
                 'Error get contacts [name,email] for file ' . __FILE__ . ', line ' . __LINE__

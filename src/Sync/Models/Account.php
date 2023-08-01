@@ -22,7 +22,7 @@ class Account extends Model
         return $this->hasOne(Access::class);
     }
 
-    public function contact()
+    public function contacts()
     {
         return $this->hasMany(Contact::class);
     }
