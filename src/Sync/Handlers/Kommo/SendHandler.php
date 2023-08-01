@@ -27,7 +27,7 @@ class SendHandler implements RequestHandlerInterface
         $data = $contactsService->getNameAndEmail($accountId);
 
         $contactUnisender = new SendService(new UnisenderService());
-        $send = $contactUnisender->sendContacts($data);
+        $send = $contactUnisender->sendContacts($data, $accountId);
 
         if ($send['error']) {
             return new JsonResponse([

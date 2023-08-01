@@ -157,7 +157,6 @@ class ApiService
                 'refresh_token' => $token['refresh_token'],
                 'expires' => $token['expires'],
             ]);
-
     }
 
     /**
