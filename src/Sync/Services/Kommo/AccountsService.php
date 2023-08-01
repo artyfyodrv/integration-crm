@@ -10,7 +10,7 @@ use Sync\Models\Integration;
 class AccountsService extends ApiService
 {
     /**
-     * @var ApiService
+     * @var ApiService - AmoCRM api Client
      */
     private ApiService $apiService;
 

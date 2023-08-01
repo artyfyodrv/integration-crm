@@ -33,7 +33,7 @@ class AuthHandler implements RequestHandlerInterface
                 throw new \Exception('Ошибка чтения токена');
             }
 
-            $accounts = new AccountsService($apiClient);
+            $accounts = new AccountsService();
 
             return new JsonResponse([
                 "status" => "success",
