@@ -25,7 +25,7 @@ class ApiService
     private const TOKENS_FILE = './tokens.json';
 
     /** @var AmoCRMApiClient AmoCRM клиент. */
-    private AmoCRMApiClient $apiClient;
+    protected AmoCRMApiClient $apiClient;
 
     /**
      * @return AmoCRMApiClient
@@ -156,6 +156,7 @@ class ApiService
                 'access_token' => $token['access_token'],
                 'refresh_token' => $token['refresh_token'],
                 'expires' => $token['expires'],
+                'unisender_key' => getenv('UNISENDER_API_KEY'),
             ]);
     }
 

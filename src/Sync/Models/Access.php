@@ -18,8 +18,12 @@ class Access extends Model
         'access_token',
         'refresh_token',
         'expires',
+        'unisender_key',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo - обратная связь 1 к 1
+     */
     public function account()
     {
         return $this->belongsTo(Account::class);

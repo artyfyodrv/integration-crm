@@ -14,8 +14,8 @@ class AddIntegrationHandler implements RequestHandlerInterface
 {
 
     /**
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
+     * @param ServerRequestInterface $request - получаем HTTP запрос
+     * @return ResponseInterface - возвращаем ответ в JSON формате
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
@@ -23,7 +23,7 @@ class AddIntegrationHandler implements RequestHandlerInterface
         new Database();
 
         if ($queryParams['integration_id'] && $queryParams['id']) {
-            Integration::on()->firstOrCreate([
+            Integration::on()->updateOrCreate([
                 'integrationId' => $queryParams['integration_id'],
             ]);
 
