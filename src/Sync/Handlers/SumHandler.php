@@ -25,9 +25,7 @@ class SumHandler implements RequestHandlerInterface
         $date = date('Y-m-d');
         $log = new Logger('LOGGER');
         $log->pushHandler(new StreamHandler("logs/$date/requests.log",));
-
         $queryParams = $request->getQueryParams();
-
         $sum = array_sum($queryParams);
         $log->info(implode(',', $queryParams) . " result: $sum");
 

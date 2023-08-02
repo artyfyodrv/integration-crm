@@ -13,7 +13,6 @@ use Sync\Services\Unisender\UnisenderService;
 
 class SendHandler implements RequestHandlerInterface
 {
-
     /**
      * @param ServerRequestInterface $request - получаем HTTP POST запрос
      * @return ResponseInterface - возвращаем JSON ответ
@@ -27,7 +26,7 @@ class SendHandler implements RequestHandlerInterface
         $data = $contactsService->getNameAndEmail($accountId);
 
         $contactUnisender = new SendService(new UnisenderService());
-        $send = $contactUnisender->sendContacts($data);
+        $send = $contactUnisender->sendContacts($data, $accountId);
 
         if ($send['error']) {
             return new JsonResponse([

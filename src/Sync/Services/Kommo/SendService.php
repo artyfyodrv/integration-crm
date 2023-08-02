@@ -2,9 +2,9 @@
 
 namespace Sync\Services\Kommo;
 
+use Sync\Models\Account;
 use Sync\Services\LoggerService;
 use Sync\Services\Unisender\UnisenderService;
-
 
 class SendService
 {
@@ -30,7 +30,7 @@ class SendService
      * @param $data - массив имен и эмейлов контактов из Kommo
      * @return mixed|void - возвращаем ответ на Handler
      */
-    public function sendContacts($data)
+    public function sendContacts($data, $accountId)
     {
         $import = [
             'field_names' => [
@@ -50,12 +50,24 @@ class SendService
             }
         }
 
-        $sendContacts = $this->unisenderService->getApiUnisender()->importContacts($import);
+        $sendContacts = $this
+            ->unisenderService
+            ->getApiUnisender()
+            ->importContacts($import);
         $result = json_decode($sendContacts, true);
 
         if ($result['error']) {
             $this->loggerService->logError($result['error'] . 'file ' . __FILE__ . ', line ' . __LINE__);
         } else {
+            $account = Account::find($accountId);
+            foreach ($import['data'] as $test) {
+                $email = $test[0];
+                $name = $test[1];
+                $account->contacts()->updateOrCreate(
+                    ['email' => $email],
+                    ['name' => $name]
+                );
+            }
             $this->loggerService->logInfo('Success sendContacts ');
         }
 

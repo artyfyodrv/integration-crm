@@ -20,25 +20,19 @@ class AuthHandler implements RequestHandlerInterface
     {
         try {
             $queryParams = $request->getQueryParams();
-
             $apiClient = new ApiService();
             $accountId = $queryParams["id"] ?? $_SESSION['service_id'];
             $token = $apiClient->readToken($accountId);
+            $accounts = new AccountsService();
 
             if (!$token) {
                 $accountId = $apiClient->auth($queryParams);
                 $token = $apiClient->readToken($accountId);
             }
 
-            if (!$token) {
-                throw new \Exception('Ошибка чтения токена');
-            }
-
-            $accounts = new AccountsService($apiClient);
-
             return new JsonResponse([
                 "status" => "success",
-                "name" => $accounts->getAccount($token)['name'],
+                "name" => $accounts->getNameAccount($token),
             ]);
         } catch (Throwable $e) {
             return new JsonResponse([
