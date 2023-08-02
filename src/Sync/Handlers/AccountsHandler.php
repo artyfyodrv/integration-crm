@@ -25,14 +25,14 @@ class AccountsHandler implements RequestHandlerInterface
             $token = $apiClient->readToken($queryParams['id']);
 
             if (!$token) {
-                throw new \Exception('Ошибка доступа');
+                throw new Exception('Ошибка доступа');
             }
 
             $name = new AccountsService();
             $result = $name->getAccounts($token, $queryParams['id']);
 
             return new JsonResponse($result);
-        } catch (\Exception $e){
+        } catch (Exception $e){
             return new JsonResponse([
                 'status' => 'failed',
                 'message' => $e->getMessage()
