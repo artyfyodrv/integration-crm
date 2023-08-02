@@ -30,10 +30,6 @@ class AuthHandler implements RequestHandlerInterface
                 $token = $apiClient->readToken($accountId);
             }
 
-            if (!$token) {
-                throw new \Exception('Ошибка чтения токена');
-            }
-
             return new JsonResponse([
                 "status" => "success",
                 "name" => $accounts->getNameAccount($token),
