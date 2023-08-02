@@ -77,7 +77,6 @@ class ContactsService
         try {
             $token = $this->apiService->readToken($accountId);
             $data = $this->getContacts($token);
-
             $result = [];
 
             foreach ($data as $contact) {
@@ -96,7 +95,6 @@ class ContactsService
                         }
                     }
                 }
-
                 $result[] = array(
                     'name' => $name,
                     'email' => $email,

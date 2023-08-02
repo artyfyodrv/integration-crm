@@ -23,6 +23,7 @@ class ContactsHandler implements RequestHandlerInterface
             $apiClient = new ApiService();
             $contactsService = new ContactsService($apiClient);
             $accountId = $queryParams["id"] ?? $_SESSION['service_id'];
+            $data = $contactsService->getNameAndEmail($accountId);
 
             if (empty($queryParams['id'])) {
                 return new JsonResponse([
@@ -30,8 +31,6 @@ class ContactsHandler implements RequestHandlerInterface
                     'result' => 'Error request, not found parameters ID'
                 ], 400);
             }
-
-            $data = $contactsService->getNameAndEmail($accountId);
 
             return new JsonResponse([
                 'status' => 'success',

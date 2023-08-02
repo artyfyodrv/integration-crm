@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Account extends Model
 {
-    /** @var string имя таблицы модели  */
+    /** @var string имя таблицы модели */
     protected $table = 'accounts';
 
     /** @var string первичный ключ таблицы */

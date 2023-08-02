@@ -35,7 +35,6 @@ class AddIntegrationHandler implements RequestHandlerInterface
                 ->where('integration_id', '=', $queryParams['integrationId'])
                 ->pluck('id')
                 ->toArray();
-
             $account = Account::find($queryParams['id']);
             $integration = Integration::find($integrationId[0]);
             $account->integration()->sync($integration->id);

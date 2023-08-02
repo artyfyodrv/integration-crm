@@ -50,7 +50,10 @@ class SendService
             }
         }
 
-        $sendContacts = $this->unisenderService->getApiUnisender()->importContacts($import);
+        $sendContacts = $this
+            ->unisenderService
+            ->getApiUnisender()
+            ->importContacts($import);
         $result = json_decode($sendContacts, true);
 
         if ($result['error']) {

@@ -190,7 +190,10 @@ class ApiService
                 throw new Exception('Ошибка интеграции');
             }
 
-            $token = Access::on()->where('account_id', '=', $serviceId)->get()->toArray();
+            $token = Access::on()
+                ->where('account_id', '=', $serviceId)
+                ->get()
+                ->toArray();
 
             if (empty($token)) {
                 return null;
@@ -201,5 +204,4 @@ class ApiService
             throw new Exception($e->getMessage());
         }
     }
-
 }

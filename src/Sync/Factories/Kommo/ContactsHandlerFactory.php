@@ -19,5 +19,4 @@ class ContactsHandlerFactory
     {
         return new ContactsHandler();
     }
-
 }

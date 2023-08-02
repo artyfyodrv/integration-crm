@@ -13,7 +13,6 @@ use Sync\Services\Unisender\UnisenderService;
 
 class SendHandler implements RequestHandlerInterface
 {
-
     /**
      * @param ServerRequestInterface $request - получаем HTTP POST запрос
      * @return ResponseInterface - возвращаем JSON ответ

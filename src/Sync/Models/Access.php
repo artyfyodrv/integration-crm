@@ -15,6 +15,7 @@ class Access extends Model
     /** @var bool отключение полей таблицы created_at/updated_at */
     public $timestamps = false;
 
+    /** @var string[] разрешаем запись к полям в массиве */
     protected $fillable = [
         'account_id',
         'base_domain',

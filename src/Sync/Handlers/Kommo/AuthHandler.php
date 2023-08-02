@@ -23,6 +23,7 @@ class AuthHandler implements RequestHandlerInterface
             $apiClient = new ApiService();
             $accountId = $queryParams["id"] ?? $_SESSION['service_id'];
             $token = $apiClient->readToken($accountId);
+            $accounts = new AccountsService();
 
             if (!$token) {
                 $accountId = $apiClient->auth($queryParams);
@@ -32,8 +33,6 @@ class AuthHandler implements RequestHandlerInterface
             if (!$token) {
                 throw new \Exception('Ошибка чтения токена');
             }
-
-            $accounts = new AccountsService();
 
             return new JsonResponse([
                 "status" => "success",
