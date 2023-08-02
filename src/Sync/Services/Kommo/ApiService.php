@@ -21,9 +21,6 @@ class ApiService
     /** @var string Базовый домен авторизации. */
     private const TARGET_DOMAIN = 'kommo.com';
 
-    /** @var string Файл хранения токенов. */
-    private const TOKENS_FILE = './tokens.json';
-
     /** @var AmoCRMApiClient AmoCRM клиент. */
     protected AmoCRMApiClient $apiClient;
 
