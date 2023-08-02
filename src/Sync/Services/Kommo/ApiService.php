@@ -139,25 +139,35 @@ class ApiService
      *
      * @param int $serviceId Системный идентификатор аккаунта.
      * @param array $token Токен доступа Api.
-     * @return void
      */
     private function saveToken(int $serviceId, array $token): void
     {
-        new Database();
-        Account::on()
-            ->updateOrCreate([
-                'id' => $serviceId,
-            ]);
+        try {
+            new Database();
+            $account = Account::find($serviceId);
 
-        Access::on()
-            ->updateOrCreate([
-                'account_id' => $serviceId,
-                'base_domain' => $token['base_domain'],
-                'access_token' => $token['access_token'],
-                'refresh_token' => $token['refresh_token'],
-                'expires' => $token['expires'],
-                'unisender_key' => getenv('UNISENDER_API_KEY'),
-            ]);
+            if (!$account->exists) {
+                throw new Exception('Ошибка данных');
+            }
+
+            $integration = $account->integration->toArray();
+
+            if (empty($integration)) {
+                throw new Exception('Ошибка интеграции');
+            }
+
+            Access::on()
+                ->updateOrCreate([
+                    'account_id' => $serviceId,
+                    'base_domain' => $token['base_domain'],
+                    'access_token' => $token['access_token'],
+                    'refresh_token' => $token['refresh_token'],
+                    'expires' => $token['expires'],
+                    'unisender_key' => getenv('UNISENDER_API_KEY'),
+                ]);
+        } catch (Throwable $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**
@@ -171,6 +181,18 @@ class ApiService
     {
         try {
             new Database();
+            $account = Account::find($serviceId);
+
+            if (!$account->exists) {
+                throw new Exception('Ошибка данных');
+            }
+
+            $integration = $account->integration->toArray()[0];
+
+            if (empty($integration)) {
+                throw new Exception('Ошибка интеграции');
+            }
+
             $token = Access::on()->where('account_id', '=', $serviceId)->get()->toArray();
 
             if (empty($token)) {
@@ -179,7 +201,7 @@ class ApiService
 
             return new AccessToken($token[0]);
         } catch (Throwable $e) {
-            throw new Exception('Token error');
+            throw new Exception($e->getMessage());
         }
     }
 

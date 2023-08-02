@@ -13,7 +13,7 @@ class CreateIntegrationsTable extends Migration
     {
         Capsule::schema()->create('integrations', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->unique()->autoIncrement();
-            $table->string('integrationId');
+            $table->string('integration_id');
 
         });
     }

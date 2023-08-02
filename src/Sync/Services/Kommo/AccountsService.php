@@ -44,7 +44,7 @@ class AccountsService extends ApiService
      */
     public function getAccounts($accessToken, $accountId): array
     {
-        $getName = $this->getNameAccount($accessToken);
+        $nameAccount = $this->getNameAccount($accessToken);
         $accountData = Account::all()->toArray();
 
         $import = [
@@ -56,7 +56,7 @@ class AccountsService extends ApiService
                 'with_accesses' => []
             ]
         ];
-        $integration = Integration::all()->pluck('integrationId')[0];
+        $integration = Integration::all()->pluck('integration_id')[0];
 
         foreach ($accountData as $accountList) {
             foreach ($accountList as $accountId) {
@@ -65,18 +65,18 @@ class AccountsService extends ApiService
                 $dataContacts = $account->contacts()->get()->count();
             }
             $import['data']['accounts']['all'][] = [
-                $getName => [
+                $nameAccount=> [
                     'kommo_id' => $accountId,
                     'integration_id' => $integration,
                     'contacts_count' => $dataContacts,
                     'unisender_key' => $dataAccount['unisender_key'],
                 ],
             ];
-            $success = $this->readToken($accountId);
-            if ($success === null) {
+            $success = $account->access->exists;
+            if (empty($success)) {
                 continue;
             }
-            $import['data']['with_accesses'][] = $getName;
+            $import['data']['with_accesses'][] = $nameAccount;
         }
 
         return $import;
@@ -88,6 +88,7 @@ class AccountsService extends ApiService
      */
     public function getNameAccount(AccessToken $accessToken): ?string
     {
+
         return $this->apiClient->setAccountBaseDomain($accessToken->getValues()['base_domain'])
             ->setAccessToken($accessToken)
             ->getOAuthClient()

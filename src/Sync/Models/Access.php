@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Access extends Model
 {
+    /** @var string имя таблицы модели  */
     protected $table = 'accesses';
 
+    /** @var string первичный ключ таблицы */
     protected $primaryKey = 'id';
 
+    /** @var bool отключение полей таблицы created_at/updated_at */
     public $timestamps = false;
 
     protected $fillable = [

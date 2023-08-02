@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sync\Services\Kommo\AccountsService;
 use Sync\Services\Kommo\ApiService;
+use TheSeer\Tokenizer\Exception;
 
 class AccountsHandler implements RequestHandlerInterface
 {
@@ -18,14 +19,24 @@ class AccountsHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $queryParams = $request->getQueryParams();
+        try {
+            $queryParams = $request->getQueryParams();
+            $apiClient = new ApiService();
+            $token = $apiClient->readToken($queryParams['id']);
 
-        $apiClient = new ApiService();
+            if (!$token) {
+                throw new \Exception('Ошибка доступа');
+            }
 
-        $token = $apiClient->readToken($queryParams['id']);
-        $name = new AccountsService();
-        $result = $name->getAccounts($token, $queryParams['id']);
+            $name = new AccountsService();
+            $result = $name->getAccounts($token, $queryParams['id']);
 
-        return new JsonResponse($result);
+            return new JsonResponse($result);
+        } catch (\Exception $e){
+            return new JsonResponse([
+                'status' => 'failed',
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }

@@ -2,11 +2,13 @@
 
 namespace Sync;
 
+use Sync\Factories\Kommo\AddIntegrationHandlerFactory;
 use Sync\Factories\Kommo\AuthHandlerFactory;
 use Sync\Factories\Kommo\ContactsHandlerFactory;
 use Sync\Factories\Kommo\SendHandlerFactory;
 use Sync\Factories\SumHandlerFactory;
 use Sync\Factories\Unisender\ContactHandlerFactory;
+use Sync\Handlers\Kommo\AddIntegrationHandler;
 use Sync\Handlers\Kommo\AuthHandler;
 use Sync\Handlers\Kommo\ContactsHandler;
 use Sync\Handlers\Kommo\SendHandler;
@@ -38,6 +40,7 @@ class ConfigProvider
                 ContactsHandler::class => ContactsHandlerFactory::class,
                 ContactHandler::class => ContactHandlerFactory::class,
                 SendHandler::class => SendHandlerFactory::class,
+                AddIntegrationHandler::class => AddIntegrationHandlerFactory::class,
             ],
         ];
     }

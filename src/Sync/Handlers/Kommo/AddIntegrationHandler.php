@@ -22,27 +22,22 @@ class AddIntegrationHandler implements RequestHandlerInterface
         $queryParams = $request->getQueryParams();
         new Database();
 
-        if ($queryParams['integration_id'] && $queryParams['id']) {
+        if ($queryParams['integrationId'] && $queryParams['id']) {
             Integration::on()->updateOrCreate([
-                'integrationId' => $queryParams['integration_id'],
+                'integration_id' => $queryParams['integrationId'],
             ]);
 
             Account::on()->firstOrCreate([
                 'id' => $queryParams['id'],
             ]);
 
-            $getAccountId = Account::on()
-                ->where('id', '=', $queryParams['id'])
+            $integrationId = Integration::on()
+                ->where('integration_id', '=', $queryParams['integrationId'])
                 ->pluck('id')
                 ->toArray();
 
-            $getIntegrationId = Integration::on()
-                ->where('integrationId', '=', $queryParams['integration_id'])
-                ->pluck('id')
-                ->toArray();
-
-            $account = Account::find($getAccountId[0]);
-            $integration = Integration::find($getIntegrationId[0]);
+            $account = Account::find($queryParams['id']);
+            $integration = Integration::find($integrationId[0]);
             $account->integration()->sync($integration->id);
             $account->save();
         } else {
