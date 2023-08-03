@@ -87,7 +87,9 @@ class AccountsService extends ApiService
      */
     public function getNameAccount(AccessToken $accessToken): ?string
     {
-        return $this->apiClient->setAccountBaseDomain($accessToken->getValues()['base_domain'])
+        return $this
+            ->apiClient
+            ->setAccountBaseDomain($accessToken->getValues()['base_domain'])
             ->setAccessToken($accessToken)
             ->getOAuthClient()
             ->getResourceOwner($accessToken)

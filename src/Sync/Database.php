@@ -24,6 +24,5 @@ class Database
         ]);
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
-
     }
 }

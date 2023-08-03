@@ -19,12 +19,13 @@ class AddIntegrationHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $queryParams = $request->getQueryParams();
         new Database();
+        $queryParams = $request->getQueryParams();
 
-        if ($queryParams['integrationId'] && $queryParams['id']) {
+        if ($queryParams['integrationId'] && $queryParams['id'] && $queryParams['secret_key']) {
             Integration::on()->updateOrCreate([
                 'integration_id' => $queryParams['integrationId'],
+                'secret_key' => $queryParams['secret_key'],
             ]);
 
             Account::on()->firstOrCreate([
