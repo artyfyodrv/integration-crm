@@ -20,6 +20,7 @@ class Integration extends Model
     protected $fillable = [
         'id',
         'integration_id',
+        'secret_key',
     ];
 
     /**
@@ -29,7 +30,7 @@ class Integration extends Model
     {
         return $this->belongsToMany(
             Account::class,
-            'account_table',
+            'account_integration',
             'integration_id',
             'account_id'
         );

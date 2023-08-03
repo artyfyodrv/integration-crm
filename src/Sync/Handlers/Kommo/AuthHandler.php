@@ -7,7 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sync\Services\Kommo\AccountsService;
-use Sync\Services\Kommo\ApiService;
+use Sync\Services\Kommo\AuthService;
+use Sync\Services\Kommo\FastAuthService;
 use Throwable;
 
 class AuthHandler implements RequestHandlerInterface
@@ -20,14 +21,20 @@ class AuthHandler implements RequestHandlerInterface
     {
         try {
             $queryParams = $request->getQueryParams();
-            $apiClient = new ApiService();
             $accountId = $queryParams["id"] ?? $_SESSION['service_id'];
-            $token = $apiClient->readToken($accountId);
-            $accounts = new AccountsService();
+            $apiClient = new AuthService();
 
-            if (!$token) {
-                $accountId = $apiClient->auth($queryParams);
+            if (!$queryParams['from_widget']) {
                 $token = $apiClient->readToken($accountId);
+                $accounts = new AccountsService();
+
+                if (!$token) {
+                    $accountId = $apiClient->auth($queryParams);
+                    $token = $apiClient->readToken($accountId);
+                }
+            } else {
+                $easyAuth = new FastAuthService();
+                $accountId = $easyAuth->auth($queryParams);
             }
 
             return new JsonResponse([
