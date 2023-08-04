@@ -33,8 +33,9 @@ class FastAuthService extends TokenService implements AuthInterface
 
             new Database();
             // Получаем account_id через бд связывающей таблицы account_integration
-            $test = Integration::find($queryParams['client_id']);
-            $accountId = $test->account()->pluck('account_id')->toArray()[0];
+            $integration = Integration::where("integration_id", '=', $queryParams['client_id'])->pluck('id')->toArray()[0];
+            $integration = Integration::find($integration);
+            $accountId = $integration->account()->pluck('account_id')->toArray()[0];
             // Нужно найти другое решение..
 
             if (!$accessToken->hasExpired()) {

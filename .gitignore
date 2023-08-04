@@ -6,5 +6,5 @@
 /vendor/
 /.idea/
 /logs/
-.env
+/.env
 tokens.json

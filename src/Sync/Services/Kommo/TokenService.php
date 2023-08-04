@@ -34,7 +34,6 @@ class TokenService extends ApiService
                     'access_token' => $token['access_token'],
                     'refresh_token' => $token['refresh_token'],
                     'expires' => $token['expires'],
-                    'unisender_key' => getenv('UNISENDER_API_KEY'),
                 ]);
         } catch (Throwable $e) {
             throw new Exception($e->getMessage());
