@@ -2,6 +2,7 @@
 
 namespace Sync;
 
+use Sync\Factories\Kommo\AccountsHandlerFactory;
 use Sync\Factories\Kommo\AddIntegrationHandlerFactory;
 use Sync\Factories\Kommo\AuthHandlerFactory;
 use Sync\Factories\Kommo\ContactsHandlerFactory;
@@ -9,6 +10,7 @@ use Sync\Factories\Kommo\SendHandlerFactory;
 use Sync\Factories\Kommo\WidgetHandlerFactory;
 use Sync\Factories\SumHandlerFactory;
 use Sync\Factories\Unisender\ContactHandlerFactory;
+use Sync\Handlers\AccountsHandler;
 use Sync\Handlers\Kommo\AddIntegrationHandler;
 use Sync\Handlers\Kommo\AuthHandler;
 use Sync\Handlers\Kommo\ContactsHandler;
@@ -44,6 +46,7 @@ class ConfigProvider
                 SendHandler::class => SendHandlerFactory::class,
                 AddIntegrationHandler::class => AddIntegrationHandlerFactory::class,
                 WidgetHandler::class => WidgetHandlerFactory::class,
+                AccountsHandler::class => AccountsHandlerFactory::class,
             ],
         ];
     }
