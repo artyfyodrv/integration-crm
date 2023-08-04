@@ -22,6 +22,8 @@ class ContactsService
      */
     public LoggerService $loggerService;
 
+    private TokenService $tokenService;
+
     /**
      * @param ApiService $apiService
      */
@@ -29,6 +31,7 @@ class ContactsService
     {
         $this->apiService = $apiService;
         $this->loggerService = new LoggerService();
+        $this->tokenService = new TokenService();
     }
 
     /**
@@ -75,7 +78,7 @@ class ContactsService
     public function getNameAndEmail($accountId): ?array
     {
         try {
-            $token = $this->apiService->readToken($accountId);
+            $token = $this->tokenService->readToken($accountId);
             $data = $this->getContacts($token);
             $result = [];
 

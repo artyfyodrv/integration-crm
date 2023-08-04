@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sync\Services\Kommo\ApiService;
 use Sync\Services\Kommo\ContactsService;
+use Sync\Services\Kommo\TokenService;
 use Throwable;
 
 class ContactsHandler implements RequestHandlerInterface
@@ -20,8 +21,8 @@ class ContactsHandler implements RequestHandlerInterface
     {
         try {
             $queryParams = $request->getQueryParams();
-            $apiClient = new ApiService();
-            $contactsService = new ContactsService($apiClient);
+            $apiToken = new TokenService();
+            $contactsService = new ContactsService($apiToken);
             $accountId = $queryParams["id"] ?? $_SESSION['service_id'];
             $data = $contactsService->getNameAndEmail($accountId);
 

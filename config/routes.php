@@ -45,4 +45,5 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     $app->post('/api/send', \Sync\Handlers\Kommo\SendHandler::class, 'api.send');
     $app->post('/api/addIntegration', \Sync\Handlers\Kommo\AddIntegrationHandler::class, 'api.addIntegration');
     $app->get('/api/accounts', \Sync\Handlers\AccountsHandler::class, 'api.accounts');
+    $app->post('/widget', \Sync\Handlers\Kommo\WidgetHandler::class, 'widget');
 };
