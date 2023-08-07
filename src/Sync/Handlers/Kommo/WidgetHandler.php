@@ -21,12 +21,10 @@ class WidgetHandler implements RequestHandlerInterface
     {
         new Database();
         $queryParams = $request->getParsedBody();
-
         $test = json_encode($queryParams, JSON_PRETTY_PRINT);
         file_put_contents('test.json', $test, FILE_APPEND);
         $accountToken = Access::where('account_id', '=', $queryParams['account_id'])->pluck('id')->toArray()[0];
         $accountToken = Access::find($accountToken);
-
 
         if ($accountToken) {
             $accountToken->unisender_key = $queryParams['unisender_key'];
@@ -47,5 +45,4 @@ class WidgetHandler implements RequestHandlerInterface
             ], 400);
         }
     }
-
 }
