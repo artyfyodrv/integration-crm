@@ -9,6 +9,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Sync\Config\BeanstalkConfig;
+use Throwable;
 
 abstract class BaseWorker extends Command
 {
@@ -22,6 +23,10 @@ abstract class BaseWorker extends Command
         $this->connection = $beanstalk->getConnection();
     }
 
+    /**
+     * @param InputInterface $input - Входные данные команды
+     * @param OutputInterface $output - Выходные данны команды
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         while ($job = $this->connection
@@ -36,8 +41,9 @@ abstract class BaseWorker extends Command
                         true,
                         512,
                         JSON_THROW_ON_ERROR
-                    ));
-            } catch (\Throwable $exception) {
+                    )
+                );
+            } catch (Throwable $exception) {
                 exit($exception->getMessage());
             }
 
@@ -45,7 +51,7 @@ abstract class BaseWorker extends Command
         }
     }
 
-    private function handleException(\Throwable $exception, Job $job): void
+    private function handleException(Throwable $exception, Job $job): void
     {
         echo "Error unhandler exception $exception" . PHP_EOL . $job->getData();
     }

@@ -26,11 +26,9 @@ class ProducerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $time = date('H:i (m.Y)');
-
         $job = Pheanstalk::create('localhost')
             ->useTube('timer')
             ->put(json_encode("$time"));
-
         echo ("Time sent: $time") . PHP_EOL;
 
         return COMMAND::SUCCESS;

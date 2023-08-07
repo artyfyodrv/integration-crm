@@ -2,8 +2,10 @@
 
 namespace Sync;
 
+use Sync\Command\HowTimeCommand;
 use Sync\Command\ProducerCommand;
 use Sync\Command\WorkerCommand;
+use Sync\Factories\Commands\HowTimeCommandFactory;
 use Sync\Factories\Commands\ProducerCommandFactory;
 use Sync\Factories\Commands\WorkerCommandFactory;
 use Sync\Factories\Kommo\AccountsHandlerFactory;
@@ -54,6 +56,7 @@ class ConfigProvider
                 WidgetHandler::class => WidgetHandlerFactory::class,
                 AccountsHandler::class => AccountsHandlerFactory::class,
                 WebhookHandler::class => WebhookHandlerFactory::class,
+                HowTimeCommand::class => HowTimeCommandFactory::class,
                 ProducerCommand::class => ProducerCommandFactory::class,
                 WorkerCommand::class => WorkerCommandFactory::class,
             ],

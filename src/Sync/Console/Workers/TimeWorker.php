@@ -6,6 +6,7 @@ use Pheanstalk\Contract\PheanstalkInterface;
 use Pheanstalk\Pheanstalk;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class TimeWorker
 {
@@ -18,9 +19,14 @@ class TimeWorker
         $this->connection = Pheanstalk::create('localhost');
     }
 
+    /**
+     * @param InputInterface $input - Входные данные команды
+     * @param OutputInterface $output - Выходные данны команды
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        while ($job = $this->connection
+        while ($job = $this
+            ->connection
             ->watchOnly($this->queue)
             ->ignore(PheanstalkInterface::DEFAULT_TUBE)
             ->reserve()
@@ -32,11 +38,11 @@ class TimeWorker
                         true,
                         512,
                         JSON_THROW_ON_ERROR
-                    ));
-            } catch (\Throwable $exception) {
+                    )
+                );
+            } catch (Throwable $exception) {
                 exit($exception->getMessage());
             }
-
             $this->connection->delete($job);
         }
     }

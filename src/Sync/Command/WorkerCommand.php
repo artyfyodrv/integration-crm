@@ -32,7 +32,6 @@ class WorkerCommand extends Command
             $job = $pheanstalk->reserve();
             $time = $job->getData();
             echo "Текущее время: $time\n";
-
             $pheanstalk->delete($job);
         }
     }
