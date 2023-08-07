@@ -84,8 +84,6 @@ class SendService
     public function deleteContacts($data)
     {
         new Database();
-        $bd = json_encode($data, JSON_PRETTY_PRINT);
-        file_put_contents('delete2.json', $bd, FILE_APPEND);
         $contacts = [
             'field_names' => [
                 'email',

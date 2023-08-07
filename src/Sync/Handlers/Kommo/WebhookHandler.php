@@ -18,8 +18,6 @@ class WebhookHandler implements RequestHandlerInterface
     {
         $queryParams = $request->getParsedBody();
         $contactTrigger = new ContactTrigger();
-        $adds = json_encode($queryParams, JSON_PRETTY_PRINT);
-        file_put_contents('adds.json', $adds, FILE_APPEND);
 
         if ($queryParams['contacts']['update']) {
             $contactTrigger->update($queryParams['contacts']['update'][0]);
