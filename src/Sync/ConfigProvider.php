@@ -2,6 +2,10 @@
 
 namespace Sync;
 
+use Sync\Command\ProducerCommand;
+use Sync\Command\WorkerCommand;
+use Sync\Factories\Commands\ProducerCommandFactory;
+use Sync\Factories\Commands\WorkerCommandFactory;
 use Sync\Factories\Kommo\AccountsHandlerFactory;
 use Sync\Factories\Kommo\AddIntegrationHandlerFactory;
 use Sync\Factories\Kommo\AuthHandlerFactory;
@@ -49,7 +53,9 @@ class ConfigProvider
                 AddIntegrationHandler::class => AddIntegrationHandlerFactory::class,
                 WidgetHandler::class => WidgetHandlerFactory::class,
                 AccountsHandler::class => AccountsHandlerFactory::class,
-                WebhookHandler::class => WebhookHandlerFactory::class
+                WebhookHandler::class => WebhookHandlerFactory::class,
+                ProducerCommand::class => ProducerCommandFactory::class,
+                WorkerCommand::class => WorkerCommandFactory::class,
             ],
         ];
     }
