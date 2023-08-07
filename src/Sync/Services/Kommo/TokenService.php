@@ -11,6 +11,7 @@ use Throwable;
 
 class TokenService extends ApiService
 {
+    /** Сохранение токена в БД */
     public function saveToken(int $serviceId, array $token): void
     {
         try {
@@ -40,6 +41,7 @@ class TokenService extends ApiService
         }
     }
 
+    /** Чтение токена */
     public function readToken(int $serviceId)
     {
         try {

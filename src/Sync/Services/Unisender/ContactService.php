@@ -32,4 +32,5 @@ class ContactService
 
         return json_decode($contact, true);
     }
+
 }

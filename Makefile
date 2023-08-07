@@ -22,6 +22,3 @@ install:
 # собирает образ
 build:
 	docker build -t $(IMAGE) .
-
-migrate:
-	docker run jjnwjiwebnf19fv bash php ./vendor/phpmig

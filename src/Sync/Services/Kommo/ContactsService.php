@@ -83,6 +83,7 @@ class ContactsService
             $result = [];
 
             foreach ($data as $contact) {
+                $contactId = $contact['id'];
                 $email = [];
                 $name = $contact['name'];
                 if ($contact['custom_fields_values'] === null) {
@@ -99,10 +100,12 @@ class ContactsService
                     }
                 }
                 $result[] = array(
+                    'contact_id' => $contactId,
                     'name' => $name,
                     'email' => $email,
                 );
             }
+             // тут все ок
         } catch (AmoCRMApiException $e) {
             $this->loggerService->logError(
                 'Error get contacts [name,email] for file ' . __FILE__ . ', line ' . __LINE__
