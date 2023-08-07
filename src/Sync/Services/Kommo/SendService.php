@@ -65,10 +65,10 @@ class SendService
         } else {
             $account = Account::find($accountId);
 
-            foreach ($contacts as $test) {
-                $email = $test[0];
-                $name = $test[1];
-                $id = $test[2];
+            foreach ($contacts as $contactData) {
+                $email = $contactData[0];
+                $name = $contactData[1];
+                $id = $contactData[2];
                 $account->contacts()->updateOrCreate([
                     'contact_id' => $id,
                     'name' => $name ?? null,
