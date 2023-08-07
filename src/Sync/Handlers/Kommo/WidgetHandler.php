@@ -8,6 +8,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Sync\Database;
 use Sync\Models\Access;
+use Sync\Services\Kommo\TokenService;
+use Sync\Services\Kommo\WebhookService;
 
 class WidgetHandler implements RequestHandlerInterface
 {
@@ -21,12 +23,30 @@ class WidgetHandler implements RequestHandlerInterface
         $queryParams = $request->getParsedBody();
         $accountToken = Access::where('account_id', '=', $queryParams['account_id'])->pluck('id')->toArray()[0];
         $accountToken = Access::find($accountToken);
-        $accountToken->unisender_key = $queryParams['unisender_key'];
-        $accountToken->save();
+
+        if ($accountToken) {
+            $accountToken->unisender_key = $queryParams['unisender_key'];
+            $accountToken->save();
+
+            $unisenderKey = Access::where('unisender_key', '=', $queryParams['unisender_key'])
+                ->where('account_id', '=', $queryParams['account_id'])->get()->toArray();
+
+            if ($unisenderKey) {
+                $token = new TokenService();
+                $token = $token->readToken($queryParams['account_id']);
+                $webhook = new WebhookService();
+                $webhook->subscribe($token);
+            }
+
+            return new JsonResponse([
+                'status' => 'success',
+                'message' => 'Успешное добавление токена'
+            ]);
+        }
 
         return new JsonResponse([
             'status' => 'success',
-            'message' => 'Успешное добавление токена'
+            'message' => 'Успешная операция'
         ]);
     }
 }
