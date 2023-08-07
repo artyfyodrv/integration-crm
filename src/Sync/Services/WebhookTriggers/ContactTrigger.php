@@ -67,14 +67,12 @@ class ContactTrigger extends UnisenderService
     public function delete($queryParams)
     {
         new Database();
-        $accountId = $queryParams['account']['id']; // ok
+        $accountId = $queryParams['account']['id'];
         $contactId = $queryParams['contacts']['delete'][0]['id'];
-
         $data = Contact::where('account_id', '=', (int)$accountId)
             ->where('contact_id', '=', (int)$contactId)
             ->get()
             ->toArray();
-
         $sendService = new SendService(new UnisenderService());
         $result = $sendService->deleteContacts($data);
 
