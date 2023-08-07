@@ -31,7 +31,6 @@ class WidgetHandler implements RequestHandlerInterface
         if ($accountToken) {
             $accountToken->unisender_key = $queryParams['unisender_key'];
             $accountToken->save();
-
             $token = new TokenService();
             $token = $token->readToken($queryParams['account_id']);
             $webhook = new WebhookService();
