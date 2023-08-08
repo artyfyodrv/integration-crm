@@ -11,6 +11,7 @@ use Sync\Config\BeanstalkConfig;
 
 class HowTimeProducer extends Command
 {
+    /** @var Pheanstalk|null подключение Beanstalk если подключения нет NULL */
     protected Pheanstalk $connection;
 
     /**
@@ -50,3 +51,4 @@ class HowTimeProducer extends Command
         return COMMAND::SUCCESS;
     }
 }
+
