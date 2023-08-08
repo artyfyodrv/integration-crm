@@ -2,15 +2,14 @@
 
 namespace Sync\Console\Workers;
 
-use Pheanstalk\Pheanstalk;
-
-
 class HowTimeWorker extends BaseWorker
 {
-    protected Pheanstalk $connection;
-
+    /** @var string название очереди */
     protected string $queue = 'how-time';
 
+    /**
+     *  Обработчик задания из очереди
+     */
     public function process($data)
     {
         echo "Текущее время: $data" . PHP_EOL;

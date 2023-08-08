@@ -13,10 +13,19 @@ use Throwable;
 
 abstract class BaseWorker extends Command
 {
+    /**
+     * @var Pheanstalk|null подключение beanstalk если нет подключение то NULL
+     */
     protected Pheanstalk $connection;
 
+    /** @var string default название очереди  */
     protected string $queue = 'default';
 
+    /**
+     * Конструктор подключения Beanstalk
+     *
+     * @param BeanstalkConfig $beanstalk - подключение Beanstalk
+     */
     final public function __construct(BeanstalkConfig $beanstalk)
     {
         parent::__construct();
@@ -51,10 +60,20 @@ abstract class BaseWorker extends Command
         }
     }
 
+    /**
+     * Обработка исключения
+     *
+     * @param Throwable $exception Исключение
+     * @param Job $job Задание из очереди
+     * @return void
+     */
     private function handleException(Throwable $exception, Job $job): void
     {
         echo "Error unhandler exception $exception" . PHP_EOL . $job->getData();
     }
 
+    /**
+     * Абстрактный метод для обработки Воркерами задания из очереди
+     */
     abstract public function process($data);
 }

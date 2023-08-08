@@ -1,11 +1,13 @@
 <?php
 
+use Sync\Console\Commands\Producers\HowTimeProducer;
+use Sync\Console\Workers\HowTimeWorker;
+
 return [
     'laminas-cli' => [
         'commands' => [
-            'how-time' => \Sync\Command\HowTimeCommand::class,
-            'producer' => \Sync\Command\ProducerCommand::class,
-            'worker' => \Sync\Command\WorkerCommand::class,
+            'producer' => HowTimeProducer::class,
+            'worker' => HowTimeWorker::class,
         ],
     ],
 ];

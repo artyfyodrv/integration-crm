@@ -9,8 +9,8 @@ use Sync\Console\Workers\HowTimeWorker;
 class HowTimeWorkerFactory
 {
     /**
-     * @param ContainerInterface $container
-     * @return HowTimeWorker
+     * @param ContainerInterface $container - Контейнер зависимостей
+     * @return HowTimeWorker - Объект класса HowTimeWorker
      */
     public function __invoke(ContainerInterface $container)
     {

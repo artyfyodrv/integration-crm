@@ -9,8 +9,8 @@ use Sync\Console\Commands\Producers\HowTimeProducer;
 class HowTimeProducerFactory
 {
     /**
-     * @param ContainerInterface $container
-     * @return HowTimeProducer
+     * @param ContainerInterface $container - контейнер зависимостей
+     * @return HowTimeProducer - возвращаем объект
      */
     public function __invoke(ContainerInterface $container)
     {

@@ -13,6 +13,11 @@ class HowTimeProducer extends Command
 {
     protected Pheanstalk $connection;
 
+    /**
+     * Конструктор класса подключения Beanstalk
+     *
+     * @param BeanstalkConfig $beanstalkConfig - конфиг подключения
+     */
     public function __construct(BeanstalkConfig $beanstalkConfig)
     {
         parent::__construct();
