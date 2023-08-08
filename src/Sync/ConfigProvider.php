@@ -2,6 +2,10 @@
 
 namespace Sync;
 
+use Sync\Console\Commands\Producers\HowTimeProducer;
+use Sync\Console\Workers\HowTimeWorker;
+use Sync\Factories\Commands\HowTimeProducerFactory;
+use Sync\Factories\Commands\HowTimeWorkerFactory;
 use Sync\Factories\Kommo\AccountsHandlerFactory;
 use Sync\Factories\Kommo\AddIntegrationHandlerFactory;
 use Sync\Factories\Kommo\AuthHandlerFactory;
@@ -49,7 +53,9 @@ class ConfigProvider
                 AddIntegrationHandler::class => AddIntegrationHandlerFactory::class,
                 WidgetHandler::class => WidgetHandlerFactory::class,
                 AccountsHandler::class => AccountsHandlerFactory::class,
-                WebhookHandler::class => WebhookHandlerFactory::class
+                WebhookHandler::class => WebhookHandlerFactory::class,
+                HowTimeProducer::class => HowTimeProducerFactory::class,
+                HowTimeWorker::class => HowTimeWorkerFactory::class,
             ],
         ];
     }
