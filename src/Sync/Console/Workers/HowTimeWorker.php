@@ -15,3 +15,4 @@ class HowTimeWorker extends BaseWorker
         echo "Текущее время: $data" . PHP_EOL;
     }
 }
+

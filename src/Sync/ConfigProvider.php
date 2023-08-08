@@ -3,9 +3,13 @@
 namespace Sync;
 
 use Sync\Console\Commands\Producers\HowTimeProducer;
+use Sync\Console\Commands\Producers\UpdateTokenProducer;
 use Sync\Console\Workers\HowTimeWorker;
+use Sync\Console\Workers\UpdateTokenWorker;
 use Sync\Factories\Commands\HowTimeProducerFactory;
 use Sync\Factories\Commands\HowTimeWorkerFactory;
+use Sync\Factories\Commands\UpdateTokenProducerFactory;
+use Sync\Factories\Commands\UpdateTokenWorkerFactory;
 use Sync\Factories\Kommo\AccountsHandlerFactory;
 use Sync\Factories\Kommo\AddIntegrationHandlerFactory;
 use Sync\Factories\Kommo\AuthHandlerFactory;
@@ -56,6 +60,8 @@ class ConfigProvider
                 WebhookHandler::class => WebhookHandlerFactory::class,
                 HowTimeProducer::class => HowTimeProducerFactory::class,
                 HowTimeWorker::class => HowTimeWorkerFactory::class,
+                UpdateTokenProducer::class => UpdateTokenProducerFactory::class,
+                UpdateTokenWorker::class => UpdateTokenWorkerFactory::class,
             ],
         ];
     }

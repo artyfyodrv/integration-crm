@@ -43,7 +43,7 @@ services:
       MYSQL_ROOT_PASSWORD: admin
       SERVICE_NAME: mysql
     volumes:
-      - ./docker/volumes/mysql/:/var/lib/mysql
+      - applicationMysqlFiles:/var/lib/mysql
       - applicationMysqlFiles:/var/lib/mysql-files
     networks:
       - default

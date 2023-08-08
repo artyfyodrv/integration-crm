@@ -4,6 +4,7 @@ namespace Sync\Services\Kommo;
 
 use Exception;
 use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 use Sync\Database;
 use Sync\Models\Access;
 use Sync\Models\Account;
@@ -11,6 +12,7 @@ use Throwable;
 
 class TokenService extends ApiService
 {
+
     /** Сохранение токена в БД */
     public function saveToken(int $serviceId, array $token): void
     {
@@ -71,5 +73,33 @@ class TokenService extends ApiService
         } catch (Throwable $e) {
             throw new Exception($e->getMessage());
         }
+    }
+
+    /**
+     * Метод обновления токена
+     */
+    public function updateToken(int $serviceId, AccessToken $token)
+    {
+        new Database(true);
+
+        $newToken = $this
+            ->apiClient
+            ->getOAuthClient()
+            ->setBaseDomain($token->getValues()['base_domain'])
+            ->getAccessTokenByRefreshToken($token);
+
+        $newTokens = Access::on()
+            ->where('account_id', $serviceId)
+            ->update([
+            'access_token' => $newToken,
+            'expires' => $newToken->getExpires(),
+        ]);
+
+        if(!$newTokens)
+        {
+            return $serviceId . " (FAILURE)";
+        }
+
+        return $serviceId . " (SUCCESS)";
     }
 }

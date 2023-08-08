@@ -14,7 +14,7 @@ class CreateIntegrationsTable extends Migration
         Capsule::schema()->create('integrations', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->unique()->autoIncrement();
             $table->string('integration_id');
-
+            $table->string('secret_key');
         });
     }
 
@@ -24,6 +24,5 @@ class CreateIntegrationsTable extends Migration
     public function down()
     {
         Capsule::schema()->dropIfExists('integrations');
-
     }
 }
