@@ -1,14 +1,24 @@
 <?php
 
-namespace Sync\Command;
+namespace Sync\Console\Commands\Producers;
 
 use Carbon\Carbon;
+use Pheanstalk\Pheanstalk;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Sync\Config\BeanstalkConfig;
 
-class HowTimeCommand extends Command
+class HowTimeProducer extends Command
 {
+    protected Pheanstalk $connection;
+
+    public function __construct(BeanstalkConfig $beanstalkConfig)
+    {
+        parent::__construct();
+        $this->connection = $beanstalkConfig->getConnection();
+    }
+
     /**
      * Конфигурация команды( Имя\Описание )
      */
@@ -26,8 +36,11 @@ class HowTimeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $nowTime = Carbon::now();
-        $format = $nowTime->format('H:i (m.Y)');
-        $output->writeln('Now Time: ' . $format);
+        $howTime = $nowTime->format('H:i (m.Y)');
+        $this->connection
+            ->useTube('how-time')
+            ->put(json_encode("$howTime"));
+        echo("Отправлено время: $howTime" . PHP_EOL);
 
         return COMMAND::SUCCESS;
     }

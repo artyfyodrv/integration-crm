@@ -3,16 +3,17 @@
 namespace Sync\Factories\Commands;
 
 use Psr\Container\ContainerInterface;
-use Sync\Command\ProducerCommand;
+use Sync\Config\BeanstalkConfig;
+use Sync\Console\Commands\Producers\HowTimeProducer;
 
-class ProducerCommandFactory
+class HowTimeProducerFactory
 {
     /**
      * @param ContainerInterface $container
-     * @return ProducerCommand
+     * @return HowTimeProducer
      */
     public function __invoke(ContainerInterface $container)
     {
-        return new ProducerCommand();
+        return new HowTimeProducer(new BeanstalkConfig($container));
     }
 }

@@ -3,16 +3,17 @@
 namespace Sync\Factories\Commands;
 
 use Interop\Container\ContainerInterface;
-use Sync\Command\WorkerCommand;
+use Sync\Config\BeanstalkConfig;
+use Sync\Console\Workers\HowTimeWorker;
 
-class WorkerCommandFactory
+class HowTimeWorkerFactory
 {
     /**
      * @param ContainerInterface $container
-     * @return WorkerCommand
+     * @return HowTimeWorker
      */
     public function __invoke(ContainerInterface $container)
     {
-        return new WorkerCommand();
+        return new HowTimeWorker(new BeanstalkConfig($container));
     }
 }
