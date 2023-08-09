@@ -13,7 +13,7 @@ use Sync\Services\Kommo\TokenService;
 class UpdateTokenWorker extends BaseWorker
 {
     /** @var string название очереди */
-    protected string $queue = 'update-token';
+    protected string $queue = 'token';
 
     /**
      *  Обработчик задания из очереди

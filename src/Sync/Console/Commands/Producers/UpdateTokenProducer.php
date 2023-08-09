@@ -39,7 +39,7 @@ class UpdateTokenProducer extends Command
      */
     protected function configure()
     {
-        $this->setName('token-refresh')
+        $this->setName('token')
             ->setDescription('Update access token account Kommo')
             ->addOption('time', 't', InputOption::VALUE_REQUIRED, 'Check token expire');
     }
@@ -52,19 +52,20 @@ class UpdateTokenProducer extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $getHours = (int)$input->getOption('time'); // получаем часы с консоли
-        $currentDate = Carbon::now();
+        $currentDate = Carbon::now()->format('U');
         $tokenData = Access::all();
 
         foreach ($tokenData as $token) {
             $expires = $token['expires'];
-            $expireToken = Carbon::createFromTimestamp($expires);
 
-            if ($expireToken->diffInHours($currentDate) < $getHours) {
+            if (($expires - $currentDate) < $getHours) {
                 $accountId = $token['account_id'];
                 $this->connection
-                    ->useTube('update-token')
+                    ->useTube('token')
                     ->put(json_encode($accountId));
                 echo("*UPDATE TOKEN PRODUCER* [В ОЧЕРЕДЬ НА ОБНОВЛЕНИЕ ACCESS_TOKEN ОТПРАВЛЕН] >> ACCOUNT_ID - $accountId " . PHP_EOL);
+            } else {
+                echo("NOTHING TO UPDATE" . PHP_EOL);
             }
         }
 
