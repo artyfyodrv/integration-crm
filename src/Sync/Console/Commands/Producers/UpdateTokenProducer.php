@@ -51,7 +51,6 @@ class UpdateTokenProducer extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $apiService = new ApiService();
         $getHours = (int)$input->getOption('time'); // получаем часы с консоли
         $currentDate = Carbon::now();
         $tokenData = Access::all();

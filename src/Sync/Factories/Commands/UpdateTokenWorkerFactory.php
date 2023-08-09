@@ -11,6 +11,6 @@ class UpdateTokenWorkerFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        return new UpdateTokenWorker(new BeanstalkConfig($container), new Database(true));
+        return new UpdateTokenWorker(new BeanstalkConfig($container));
     }
 }
