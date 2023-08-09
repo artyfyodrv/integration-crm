@@ -55,6 +55,7 @@ class UpdateTokenProducer extends Command
         $getHours = (int)$input->getOption('time'); // получаем часы с консоли
         $currentDate = Carbon::now();
         $tokenData = Access::all();
+
         foreach ($tokenData as $token) {
             $expires = $token['expires'];
             $expireToken = Carbon::createFromTimestamp($expires);
