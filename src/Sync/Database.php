@@ -6,10 +6,14 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Database
 {
-    public function __construct()
+    public function __construct($isLocal = false)
     {
         $capsule = new Capsule();
-        $config = (include './config/autoload/database.global.php')['database']['eloquent'];
+        if ($isLocal === false) {
+            $config = (include './config/autoload/database.global.php')['database']['eloquent'];
+        } else {
+            $config = (include './config/autoload/database.global.php')['database']['migrations'];
+        }
 
         $capsule->addConnection([
             'driver'    => $config['driver'],

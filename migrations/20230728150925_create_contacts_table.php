@@ -13,6 +13,7 @@ class CreateContactsTable extends Migration
     {
         Manager::schema()->create('contacts', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedBigInteger('contact_id');
             $table->string('name');
             $table->string('email')->nullable();
             $table->unsignedBigInteger('account_id');

@@ -18,7 +18,7 @@ abstract class BaseWorker extends Command
      */
     protected Pheanstalk $connection;
 
-    /** @var string default название очереди  */
+    /** @var string default название очереди */
     protected string $queue = 'default';
 
     /**
@@ -65,7 +65,6 @@ abstract class BaseWorker extends Command
      *
      * @param Throwable $exception Исключение
      * @param Job $job Задание из очереди
-     * @return void
      */
     private function handleException(Throwable $exception, Job $job): void
     {
@@ -77,3 +76,4 @@ abstract class BaseWorker extends Command
      */
     abstract public function process($data);
 }
+
